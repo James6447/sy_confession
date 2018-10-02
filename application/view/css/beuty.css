@@ -1,0 +1,366 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+  min-height:100vh;
+}
+
+body {
+	overflow: hidden;
+}
+
+.container {
+	position: relative;
+	transition: 1s ease-out;
+	-webkit-transition: 1s ease-out;
+}
+
+.panel {
+	height: 100vh;
+	width: 100%;
+	/* background: #f7f7f7; */
+	position: relative;
+	text-align: center;
+	/* font: 20px/100vh 'Courier New', monospace; */
+}
+
+.main{
+    display:flex;
+    align-items:center;
+    flex-flow:column nowrap;
+    overflow-x:hidden;
+}
+
+.title {
+  font:1.3em/1 monospace;
+  font-variant:small-caps;
+  letter-spacing:0.5em;
+  margin:4em;
+}
+
+.gallery {
+  perspective:700px;
+  width:50vw;
+  display:flex; justify-content:center; align-items:center; flex-flow:row wrap;
+}
+
+ul {
+  position:relative;
+  width:100px; height:100px;
+  margin:0.1em;
+  perspective-origin:center center;
+  transform-style:preserve-3d;
+  transform:rotateX(40deg);
+  transition:all 0.4s;
+}
+
+ul:hover {
+  transform:translateZ(100px) rotateX(20deg); z-index:999;
+}
+
+ul:hover li {
+  filter:grayscale(0);
+}
+
+li {
+  position:absolute; left:0; top:0;
+  backface-visibility:hidden;
+  width:100%; height:100%;
+  transition:transform 0.3s, filter 1s;
+  background:coral;
+  filter:grayscale(0.9);
+}
+/*
+Setup individual planes final poistion(by left top) and initial position(by transform)
+*/
+li:first-of-type {transform:none;}
+li:nth-of-type(2) {left:100%; transform-origin:left center; transform:rotateY(180deg);}
+li:nth-of-type(3) {top:100%; transform-origin:center top; transform:rotateX(-180deg);}
+li:nth-of-type(4) {left:-100%; transform-origin:right center; transform:rotateY(-180deg);}
+li:nth-of-type(5) {top:-100%; transform-origin:center bottom; transform:rotateX(180deg);}
+li:nth-of-type(6) {top:100%; left:100%; transform-origin:center top; transform:rotateX(-180deg);}
+li:nth-of-type(7) {top:100%; left:-100%; transform-origin:right center; transform:rotateY(-180deg);}
+li:nth-of-type(8) {top:-100%; left:-100%; transform-origin:center bottom; transform:rotateX(180deg);}
+li:nth-of-type(9) {top:-100%; left:100%; transform-origin:left center; transform:rotateY(180deg);}
+/*
+Setup transition-delay, for mouseout state
+*/
+li:nth-of-type(2),li:nth-of-type(3),li:nth-of-type(4),li:nth-of-type(5) {transition-delay:0.03s;}
+li:nth-of-type(6),li:nth-of-type(7),li:nth-of-type(8),li:nth-of-type(9) {transition-delay:0s;}
+ul:hover :nth-of-type(2),ul:hover :nth-of-type(3),ul:hover :nth-of-type(4),ul:hover :nth-of-type(5) {transition-delay:0s}
+ul:hover :nth-of-type(6),ul:hover :nth-of-type(7),ul:hover :nth-of-type(8),ul:hover :nth-of-type(9) {transition-delay:0.2s}
+/*
+Setup planes final state
+*/
+ul:hover :nth-of-type(2),ul:hover :nth-of-type(4),ul:hover :nth-of-type(7),ul:hover :nth-of-type(9) {transform:rotateY(0);}
+ul:hover :nth-of-type(3), ul:hover :nth-of-type(5),ul:hover :nth-of-type(6), ul:hover :nth-of-type(8) {transform:rotateX(0);}
+/*
+Set background position
+*/
+ul li {background-size:300% 300%;}
+li:nth-of-type(1) {background-position:center center;}
+li:nth-of-type(2) {background-position:right center;}
+li:nth-of-type(3) {background-position:center bottom;}
+li:nth-of-type(4) {background-position:left center;}
+li:nth-of-type(5) {background-position:center top;}
+li:nth-of-type(6) {background-position:right bottom;}
+li:nth-of-type(7) {background-position:left bottom;}
+li:nth-of-type(8) {background-position:left top;}
+li:nth-of-type(9) {background-position:right top;}
+/*
+Set background image source
+*/
+ul:nth-of-type(1) li { background-image:url(//picsum.photos/1200/800?image=1011);}
+ul:nth-of-type(1) { width:120px; height:80px; }
+ul:nth-of-type(2) li { background-image:url(//picsum.photos/1424/2136?image=1027);}
+ul:nth-of-type(2) { width:90px; height:130px; }
+ul:nth-of-type(3) li { background-image:url(//picsum.photos/1618/712?image=996);}
+ul:nth-of-type(3) { width:130px; height:90px; }
+ul:nth-of-type(4) li { background-image:url(//picsum.photos/1200/800?image=1005);}
+ul:nth-of-type(4) { width:120px; height:80px; }
+ul:nth-of-type(5) li { background-image:url(//picsum.photos/1042/1356?image=978);}
+ul:nth-of-type(5) { width:64px; height:84px; }
+ul:nth-of-type(6) li { background-image:url(//picsum.photos/1000/666image=943);}
+ul:nth-of-type(6) { width:100px; height:66px; }
+/*
+Hide debug label
+*/
+li { text-indent:999px; overflow:hidden; }
+
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  cursor: -webkit-grab;
+  cursor: grab;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+a {
+  color: white;
+}
+
+.transparent-bg {
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.trans-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  background-size: cover;
+  background-position: center;
+  left: 0;
+  top: 0;
+  transition: all 0.3s linear;
+  will-change: opacity;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+
+.grabbing {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+.trans-bg-active {
+  opacity: 0.35;
+}
+
+.photo-container {
+  position: relative;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  position: absolute;
+  opacity: 0;
+  -webkit-transform: translate3d(105vw, 0, 0);
+          transform: translate3d(105vw, 0, 0);
+  will-change: transform, opacity;
+  z-index: 1;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caption {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 1.3rem;
+}
+
+.photo-0 {
+  background-image: url(https://kiyutink.github.io/madrid/madrid2.jpg);
+}
+
+.photo-1 {
+  background-image: url(https://kiyutink.github.io/moscow/moscow2.jpg);
+}
+
+.photo-2 {
+  background-image: url(https://kiyutink.github.io/nyc/nyc2.jpg);
+}
+
+.photo-3 {
+  background-image: url(https://kiyutink.github.io/london/london2.jpg);
+}
+
+.photo-4 {
+  background-image: url(https://kiyutink.github.io/beijing/beijing2.jpg);
+}
+
+.photo-5 {
+  background-image: url(https://kiyutink.github.io/beijing/beijing3.jpg);
+}
+
+.photo-active {
+  -webkit-transform: none;
+          transform: none;
+  opacity: 1;
+}
+
+.photo-left {
+  -webkit-transform: translate3d(-105vw, 0, 0);
+          transform: translate3d(-105vw, 0, 0);
+}
+
+.animation {
+  transition: all 0.3s ease-out;
+}
+
+.indicator {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  -webkit-transform: translate(-50%, -102%);
+          transform: translate(-50%, -102%);
+  padding: 2px;
+  border-radius: 4px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+@media only screen and (max-width: 360px) {
+  .caption {
+    font-size: 0.9rem;
+  }
+}
+
+/* ------------------------------------------ */
+body {
+  margin: 0;
+  background: #000;
+}
+.section_3 video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+  background: url("//demosthenes.info/assets/images/polina.jpg") no-repeat;
+  background-size: cover;
+  transition: 1s opacity;
+}
+.stopfade {
+  opacity: 0.5;
+}
+
+#polina {
+  font-family: Agenda-Light, Agenda Light, Agenda, Arial Narrow, sans-serif;
+  font-weight: 100;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 2rem;
+  width: 33%;
+  margin: 2rem;
+  float: right;
+  font-size: 1.2rem;
+}
+h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-top: 0;
+  letter-spacing: 0.3rem;
+}
+#polina button {
+  display: block;
+  width: 80%;
+  padding: 0.4rem;
+  border: none;
+  margin: 1rem auto;
+  font-size: 1.3rem;
+  background: rgba(255, 255, 255, 0.23);
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s background;
+}
+#polina button:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+a {
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  transition: 0.6s background;
+}
+a:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+@media screen and (max-width: 500px) {
+  div {
+    width: 70%;
+  }
+}
+@media screen and (max-device-width: 800px) {
+  html {
+    background: url(https://thenewcode.com/assets/images/polina.jpg) #000
+      no-repeat center center fixed;
+  }
+  #bgvid {
+    display: none;
+  }
+}
